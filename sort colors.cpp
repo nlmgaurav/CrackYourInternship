@@ -1,18 +1,20 @@
-class Solution {
-public:
-    void sortColors(vector<int>& nums) {
-        int s=0,m=0,e=nums.size()-1;
-        while(m<=e)
-        {
-            if(nums[m]==0)
-            {
-                swap(nums[s],nums[m]);
-                s++,m++;
-            }else if(nums[m]==1)m++;
-            else if(nums[m]==2){
-                swap(nums[m],nums[e]);
-                e--;
-            }
-        }
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+
+signed main() {
+    int n,q;
+    cin>>n>>q;
+    vector<int>a(n);
+    for(int i=0;i<n;i++)cin>>a[i];
+    vector<int>ps(n+1,0);
+    //ps[0]=a[0];
+    for(int i=1;i<=n;i++)ps[i]=ps[i-1]+a[i-1];
+    while(q--)
+    {
+        int a,b;
+        cin>>a>>b;
+        
+        cout<<ps[b]-ps[a-1]<<"\n";
     }
-};
+}
