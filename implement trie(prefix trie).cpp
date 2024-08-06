@@ -1,0 +1,84 @@
+class Node
+{
+public:
+    Node *links[26];
+    bool flag = false;
+
+    // check if reference trie is present or not
+    bool containsKey(char ch)
+    {
+        return links[ch - 'a'] != NULL;
+    }
+
+    // creating a reference trie
+    void put(char ch, Node *node)
+    {
+        links[ch - 'a'] = node;
+    }
+
+    // get the next node for traversal
+    Node *get(char ch)
+    {
+        return links[ch - 'a'];
+    }
+
+    // setting flag true at the end of word
+    void setEnd()
+    {
+        flag = true;
+    }
+
+    // check if the word is completed or not
+    bool isEnd()
+    {
+        return flag;
+    }
+};
+
+class Trie
+{
+private:
+    Node *root;
+
+public:
+    Trie()
+    {
+        root = new Node();
+    }
+
+    void insert(string word)
+    {
+        Node *node = root;
+        for (int i = 0; i < word.size(); i++)
+        {
+            if (!node->containsKey(word[i]))
+                node->put(word[i], new Node());
+            node = node->get(word[i]);
+        }
+        node->setEnd();
+    }
+
+    bool search(string word)
+    {
+        Node *node = root;
+        for (int i = 0; i < word.size(); i++)
+        {
+            if (!node->containsKey(word[i]))
+                return false;
+            node = node->get(word[i]);
+        }
+        return node->isEnd();
+    }
+
+    bool startsWith(string prefix)
+    {
+        Node *node = root;
+        for (int i = 0; i < prefix.size(); i++)
+        {
+            if (!node->containsKey(prefix[i]))
+                return false;
+            node = node->get(prefix[i]);
+        }
+        return true;
+    }
+};
